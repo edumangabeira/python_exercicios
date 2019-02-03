@@ -4,54 +4,68 @@ import tweepy
 import time
 import random
 
-# bd com frases da grande familia
-# bd com recomendações diárias ou discurso motivacional
+# joguinho do papel com elementos da grande família!!!!!!!!!!
+
+'''
+Quem
+Com quem
+Fazendo
+Onde
+Chegou (alguém)
+E disse
+Moral da história
+
+'''
 
 
-def popozonize(db_generico, db_lineuzinho):
+def popozonize(arqs):
 
     # testando tempo de execução
     start = time.time()
+    conto = ""
 
-    # descobrir como otimizar a manipulação do arquivo
-    with open(db_generico, "r") as arq1:
-        with open(db_lineuzinho, "r") as arq2:
+    # descobrir como otimizar a manipulação do arquiv
+    for arq in range(0, len(arqs)):
+        # termo aleatório do arquivo atual
+        rodada_atual = open(arqs[arq], "r")
+        line_1 = rodada_atual.read().splitlines()
+        str_arq = random.choice(line_1)
+        rodada_atual.close()
 
-            # primeiro termo aleatório
-            line_1 = arq1.read().splitlines()
-            str_1 = random.choice(line_1)
-
-            # segundo termo aleatório
-            line_2 = arq2.read().splitlines()
-            str_2 = random.choice(line_2)
-
-            # popozonize
-            recom_diaria = str_1 + " " + str_2
+        # popozonize
+        conto = conto + "\n" + str_arq
 
     # testando tempo de execução
     end = time.time()
     print(end - start)
 
-    return recom_diaria
+    return conto
 
 # escrever função que junte as frases q provavelmente façam mais sentido
 
 
 if __name__ == "__main__":
 
-    consumer_key = 'buLO65zp0MpvY8DtHU5S3aPQJ'
-    consumer_secret = 'R9jSkLr42DB9cIZ3BfAVt6Yy5pNxd61SDBKuupWCDNPzoxmePi'
-    access_token = '1017478115126317056-7HHdMDu3aKeYGtvsCkOPP7fJnZr8h9'
-    access_token_secret = 'IEXXdAi2KBV7T3ldQG0bkistkkAy498bSxONAkf7VqpdB'
+    consumer_key = ''
+    consumer_secret = ''
+    access_token = ''
+    access_token_secret = ''
 
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token, access_token_secret)
     api = tweepy.API(auth)
 
-    db_generico = "generico.txt"
-    db_lineuzinho = "lineuzinho.txt"
+    quem = "nomes.txt"
+    com_quem = "nomes_2.txt"
+    fazendo = "fazendo.txt"
+    onde = "lugares.txt"
+    chegou_alguem = "nomes_3.txt"
+    e_disse = "frases_1.txt"
+    moral = "frases_2.txt"
+
+    historia = [quem, com_quem, fazendo, onde, chegou_alguem, e_disse, moral]
 
     while(True):
-        lineuzinho = popozonize(db_generico, db_lineuzinho)
+        lineuzinho = popozonize(historia)
         lineuzar = api.update_status(status=lineuzinho)
-        time.sleep(900)
+        time.sleep(3600)

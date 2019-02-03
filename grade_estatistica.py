@@ -30,7 +30,7 @@ oitavo = ["MAW485", "MAE242"]
 obrigatorias_cr = 12
 optativas_cr = 0
 '''
-print(soup.find_all('b'))
+print(soup.find_all("a", class_="linkNormal"))
 ''' a tag que eu quero é <b><\b>'''
 
 with open("GradeCurricular.csv", "w") as csv_file:
