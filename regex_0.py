@@ -13,6 +13,7 @@ import random
 def confusao(palavra, file):
     estranhos = ['$', '@', '#', '.', '-', '[']
     palavra = palavra.lower()
+    print(type(palavra))
     for letra in palavra:
 
         # ele esta imprimindo como lista dessa forma, como mudar?
@@ -22,7 +23,11 @@ def confusao(palavra, file):
         file.write(letra)
 
 
-# cria um segundo arquivo removendo caixa alta
+def limpa():
+    pass
+
+
+# cria um segundo arquivo com dicionario alterado
 # ##### REFAZER USANDO BLOCOS DE PROCESSAMENTO(CHUNKS)
 with open("ptbr_dicionario.txt", 'r') as f_read:
     with open("v_confuso.txt", 'w') as f_write:
