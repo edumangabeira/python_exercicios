@@ -25,14 +25,17 @@ lista_hashtags = ["#ficatemer", "#foratemer"]
 hashtags = ''
 for tag, hashtag in enumerate(lista_hashtags):
     hashtags = hashtags + hashtag
-
 '''
 SINCE:
 O argumento 'since' deve ser usado para marcar a data inicial de coleta dos tweets.
 Também é possível adicionar o argumento 'until' para dizer a data limite.
 
-No atributo 'itens()' você pode selecionar a quantidade de tweets que deseja reunir.
+No atributo 'itens()' você pode selecionar a quantidade de tweets que deseja reunir
 '''
-for tweet in tweepy.Cursor(api.search, q=hashtags, lang="pt-br", since="2018-03-20").items(100):
+#escolha a data no formato "ano-mês-dia"
+date_since = "2018-03-20"
+# data_until = ""
+
+for tweet in tweepy.Cursor(api.search, q=hashtags, lang="pt-br", since=date_since).items(100):
     print(tweet.created_at, tweet.text)
     csvWriter.writerow([tweet.created_at, tweet.text.encode('utf-8')])
