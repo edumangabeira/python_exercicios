@@ -16,17 +16,17 @@ for titulo in titulos:
         with open("moral.txt", "a") as arq:
             arq.write(moral)
 '''
-'''
+
 arq = open("frases.txt", 'r')
 arq_2 = open("frases_2.txt", 'w')
 for palavra in arq:
     palavra = palavra.lower()
-    palavra = "\nmoral da história:" + palavra
+    palavra = "moral da história: " + palavra
     print(palavra)
     arq_2.write(palavra)
 arq.close()
 arq_2.close()
-'''
+
 '''
 arq = open("nomes_2.txt", 'r')
 arq_2 = open("nomess_2.txt", 'w')

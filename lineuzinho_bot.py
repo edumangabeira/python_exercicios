@@ -1,4 +1,4 @@
-# -*-coding:"uft8"-*-
+# -*-coding:"utf-8"-*-
 # import pymongo
 import tweepy
 import time
@@ -46,10 +46,10 @@ def popozonize(arqs):
 
 if __name__ == "__main__":
 
-    consumer_key = ''
-    consumer_secret = ''
-    access_token = ''
-    access_token_secret = ''
+    consumer_key = 'buLO65zp0MpvY8DtHU5S3aPQJ'
+    consumer_secret = 'R9jSkLr42DB9cIZ3BfAVt6Yy5pNxd61SDBKuupWCDNPzoxmePi'
+    access_token = '1017478115126317056-7HHdMDu3aKeYGtvsCkOPP7fJnZr8h9'
+    access_token_secret = 'IEXXdAi2KBV7T3ldQG0bkistkkAy498bSxONAkf7VqpdB'
 
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token, access_token_secret)
@@ -68,4 +68,4 @@ if __name__ == "__main__":
     while(True):
         lineuzinho = popozonize(historia)
         lineuzar = api.update_status(status=lineuzinho)
-        time.sleep(3600)
+        time.sleep(900)
