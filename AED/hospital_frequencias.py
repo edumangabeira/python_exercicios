@@ -34,18 +34,31 @@ if __name__ == '__main__':
 
     arq_name = "frequenciasAEDestresse.txt"
     frequencias = []
+
+    '''
+    ITEM A)
+    '''
     # primeiro vamos adicionar os dados do arquivo numa lista
     with open(arq_name, "r") as arq:
-        frequencias = [linha for linha in arq]
+        frequencias = [linha.strip() for linha in arq]
+
+    '''
+    o erro está aqui, tenho q mudar o critério de repartição, desse jeito não me diz nada sobre meus dados
+    '''
 
     # ordenando de forma crescente podemos dividir nossos dados em grupos
     frequencias = sorted(frequencias)
-    n_classes = 7
-    classes_estresse = reparte_lista(frequencias, n_classes)
+    dados_estresse = [1.43, 1.48 - 1.54, 1.55 - 1.61, 1.62 - 1.68, 1.69 - .1.75, 1.76 - 1.82, 1.83 - 1.89]
+    for dado in frequencias:
+        if int(dado) <= dados_estresse[len(dado)] & & int(dado) > dados_estresse[len(dado) - 1]:
+            classes_estresse[dado] + +
+
+    # n_classes = 7
+    # classes_estresse = list(reparte_lista(frequencias, n_classes))
+    # print(classes_estresse)
 
     # agora vamos reunir esses grupos numa lista ordenada
-    ordem_estresse = []
-    ordem_estresse = [ordem_estresse.append("{}-{}". format(classe[0], classe[-1])) for classe in classes_estresse]
+    ordem_estresse = ["{}-{}".format(classe[0], classe[-1]) for classe in classes_estresse]
 
     # frequencias absolutas por classe
     freq_absoluta = [len(classe) for classe in classes_estresse]
@@ -54,13 +67,19 @@ if __name__ == '__main__':
     freq_relativa = [(len(classe) * 100) / len(classes_estresse) for classe in classes_estresse]
 
     # frequencias absolutas acumuladas por classe
-    freq_abs_acumulada = [len(classe) + len(classe - 1) for classe in classes_estresse if len(classe) > 0]
+    freq_abs_acumulada = [len(classe) if len(classe) == 0 else len(classe) + (len(classe) - 1) for classe in classes_estresse]
 
     # frequencias relativas acumuladas por classe
-    freq_rel_acumulada = [((len(classe) + len(classe - 1)) * 100) / len(classes_estresse) for classe in classes_estresse if len(classe) > 0]
+    freq_rel_acumulada = [((len(classe) + (len(classe) - 1)) * 100) / len(classes_estresse) for classe in classes_estresse if len(classe) > 0]
 
-    # agora vamos organizar nossos dados numa tabela
-    tabela_absoluta = pd.DataFrame({'Frequência Absoluta': freq_absoluta,
-                                    'Frequência Relativa': freq_relativa,
-                                    'Frequência Absoluta Acumulada': freq_abs_acumulada,
-                                    'Frequência Relativa Acumulada': freq_rel_acumulada}, index=ordem_estresse)
+    # vamos organizar nossos dados numa tabela
+    frequencias = []
+    for i in range(len(freq_absoluta)):
+        frequencias = frequencias.append([(freq_absoluta[i]), (freq_relativa[i]), (freq_abs_acumulada[i]), (freq_rel_acumulada[i])])
+
+    tabela_absoluta = pd.DataFrame(frequencias, columns=['Frequência Absoluta', 'Frequência Relativa', 'Frequência Absoluta Acumulada', 'Frequência Relativa Acumulada'], index=ordem_estresse)
+    tabela_absoluta.head()
+
+    '''
+    ITEM B)
+    '''
