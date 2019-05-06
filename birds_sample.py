@@ -1,4 +1,4 @@
-# -*-encoding:utf-8-*-
+# -*-coding:utf-8-*-
 from openpyxl import Workbook
 # from openpyxl import load_workbook
 import random as rd

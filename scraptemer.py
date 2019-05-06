@@ -1,10 +1,12 @@
 import tweepy
 import csv
+# import datetime
+# import sys
 # coloque aqui as suas credenciais do seu app twitter
-consumer_key = ''
-consumer_secret = ''
-access_token = ''
-access_token_secret = ''
+consumer_key = 'Lk1Pqh5F0cETWMVlhAEcPp7ji'
+consumer_secret = 'UnBaKq9QXaklGLUySInPzmEpoIhnqTWpvZoW723BMLyIO9fp5T'
+access_token = '772557411177623552-B3ITKQdJMaVLpuYbtqa9g7TCoVEhMkB'
+access_token_secret = 'eB0yE3JnlRvVtyTEVQqzsk9FKJ0bx1zMKd98ekWD1f3UP'
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
@@ -26,15 +28,17 @@ hashtags = ''
 for tag, hashtag in enumerate(lista_hashtags):
     hashtags = hashtags + hashtag
 '''
+[NÃO ESTÁ FUNCIONANDO, A API DO TWITTER COLETA EM TEMPO REAL E IGNORA ESSES PARÂMETROS ABAIXO]
 SINCE:
 O argumento 'since' deve ser usado para marcar a data inicial de coleta dos tweets.
 Também é possível adicionar o argumento 'until' para dizer a data limite.
 
 No atributo 'itens()' você pode selecionar a quantidade de tweets que deseja reunir
 '''
-#escolha a data no formato "ano-mês-dia"
+# escolha a data no formato "ano-mês-dia"
 date_since = "2018-03-20"
-# data_until = ""
+# date_until = "2010-03-26"
+
 
 for tweet in tweepy.Cursor(api.search, q=hashtags, lang="pt-br", since=date_since).items(100):
     print(tweet.created_at, tweet.text)
