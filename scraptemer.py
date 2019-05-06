@@ -3,10 +3,10 @@ import csv
 # import datetime
 # import sys
 # coloque aqui as suas credenciais do seu app twitter
-consumer_key = 'Lk1Pqh5F0cETWMVlhAEcPp7ji'
-consumer_secret = 'UnBaKq9QXaklGLUySInPzmEpoIhnqTWpvZoW723BMLyIO9fp5T'
-access_token = '772557411177623552-B3ITKQdJMaVLpuYbtqa9g7TCoVEhMkB'
-access_token_secret = 'eB0yE3JnlRvVtyTEVQqzsk9FKJ0bx1zMKd98ekWD1f3UP'
+consumer_key = ''
+consumer_secret = ''
+access_token = ''
+access_token_secret = ''
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
