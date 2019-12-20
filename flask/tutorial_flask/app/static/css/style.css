@@ -1,0 +1,46 @@
+/*cores de mercado: #C91F37 vermelho
+                    #FFF070 amarelo
+                    black
+fontes: Bangers google fonts;
+*/
+
+header{
+    color: black;
+    font-size: 1.5em;
+    margin: 10px white;
+
+}
+
+body{
+    background: #FFF070;
+    color: black;
+    font-size: 20px;
+    font-family: 'Bangers', sans-serif, cursive;
+}
+
+h1{
+    color: black ;
+    font-size: 3em;
+    text-align: center;
+}
+
+p{
+    font-size: 0.80em;
+}
+
+footer{
+    text-align: right;
+}
+
+.julinha{
+    text-align: left;
+    color:#C91F37;
+    width: 200px;
+
+}
+.listaDeCompras label{
+    color: #C91F37;
+    display: inline-block;
+    width: 170px;
+    text-align: center;
+}

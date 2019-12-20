@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+	<head>
+		<title>Listinha de compras</title>
+		<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/style.css') }}">
+		<link href="https://fonts.googleapis.com/css?family=Bangers&display=swap" rel="stylesheet">
+	</head>
+	<body>
+		<header>Ju<span style="color:#C91F37">Lista</span>
+
+
+		{% if user %}
+		<h1>Olá, {{user.username}}, aqui está a lista de compras mais legal de todos os tempos</h1>
+		{% else %}
+		<h1 >a lista de compras mais legal de todos os tempos</h1>
+		{% endif %}
+		</header>
+
+
+		<div class='listaDeCompras'>
+			<form>
+					<span><label for="produto">Produto</label></span>
+					<span><label for="unidade">Unidades</label></span>
+					<span><label for="preco">Preço</label><br></span>
+
+					<input type="text" name="produto">
+					<input type="number" name="unidade">
+					<input type="number" name="preco"><br>
+					<input type="text" name="produto">
+					<input type="number" name="unidade">
+					<input type="number" name="preco"><br>
+					<input type="text" name="produto">
+					<input type="number" name="unidade">
+					<input type="number" name="preco"><br>
+					<input type="text" name="produto">
+					<input type="number" name="unidade">
+					<input type="number" name="preco"><br>
+				<input type="button" value="Calcular total">
+			</form>
+		</div>
+
+		<div class="julinha">
+			<img src="/static/img/julinha3.jpg" height="270" width="180" alt="menina de óculos agasalhada comendo pastel"/>
+			<p>&quot;Eu aprovo a lista e recomendo.&quot;<br>
+			&nbsp;Julinha, 2019</p>
+		</div>
+
+
+	<footer>
+		<a href="https://github.com/edumangabeira" target="_blank">
+		<img src="/static/img/logo/github.png" height="50" alt="logo github"/>
+		</a>
+	</footer>
+	</body>
+</html>
