@@ -24,10 +24,6 @@ h1{
     text-align: center;
 }
 
-p{
-    font-size: 0.80em;
-}
-
 footer{
     text-align: right;
 }
@@ -42,5 +38,17 @@ footer{
     color: #C91F37;
     display: inline-block;
     width: 170px;
+    text-align: center;
+}
+
+.patchNotes{
+    color: #C91F37;
+    display: inline-block;
+    width: 80px;
+    text-align: left;
+
+}
+
+.patchNotes p{
     text-align: center;
 }

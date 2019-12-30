@@ -1,1 +1,2 @@
-## [pendente] adicionar seção de updates
+## [pendente]
+## [concluído] adicionar seção de updates

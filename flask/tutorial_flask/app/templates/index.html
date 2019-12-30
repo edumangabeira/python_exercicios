@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html>
 <meta charset="UTF-8">
+
 	<head>
 		<title>Listinha de compras</title>
 		<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/style.css') }}">
 		<link href="https://fonts.googleapis.com/css?family=Bangers&display=swap" rel="stylesheet">
 	</head>
 	<body>
+		<!--header-->
 		<header>Ju<span style="color:#C91F37">Lista</span>
 
 
 		{% if user %}
 		<h1>Olá, {{user.username}}, aqui está a lista de compras mais legal de todos os tempos</h1>
 		{% else %}
-		<h1 >a lista de compras mais legal de todos os tempos</h1>
+		<h1>a lista de compras mais legal de todos os tempos</h1>
 		{% endif %}
 		</header>
+		<!--header-->
 
-
+		<!--formulario-->
 		<div class='listaDeCompras'>
 			<form>
 					<span><label for="produto">Produto</label></span>
@@ -39,12 +42,26 @@
 				<input type="button" value="Calcular total">
 			</form>
 		</div>
+		<!--formulario-->
 
+		<!--release-->
+		<div class="patchNotes">
+			{%for post in posts%}
+			<a href={{post.link}} target="_blank">
+				<h2><span>{{post.versao}}<span>({{post.data}})</h2>
+			</a>
+			<p>{{post.texto}}</p>
+			{%endfor%}
+		</div>
+		<!--release-->
+
+		<!--foto da julinha-->
 		<div class="julinha">
 			<img src="/static/img/julinha3.jpg" height="270" width="180" alt="menina de óculos agasalhada comendo pastel"/>
 			<p>&quot;Eu aprovo a lista e recomendo.&quot;<br>
 			&nbsp;Julinha, 2019</p>
 		</div>
+		<!--foto da julinha-->
 
 
 	<footer>
