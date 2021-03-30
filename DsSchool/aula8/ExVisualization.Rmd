@@ -1,0 +1,121 @@
+---
+title: "Exercício de visualização"
+author: "Eduardo Freire"
+date: "27/03/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r message=FALSE, echo=FALSE}
+library(dplyr)
+library(ggplot2)
+library(kableExtra)
+library(readr)
+library(reshape2)
+bd_info <- read_csv("bd_info.csv")
+city_info <- read_csv("cidade.csv")
+```
+
+# Tarefa 1
+
+Usar o banco de dados,  o questionário e o mapa de variáveis da pasta para gerar alguma visualização. 
+
+
+
+- Considere na P4:
+FOI = resposta últimos 30 dias + últimos 12 meses, NÃO FOI =   Há mais de uma ano + nunca foi
+
+- Considere na P3:
+Baixo = resposta zero a 4 
+Medio = 5 a 7 
+Alto = 8 a 10.
+
+
+## Organizando o questionário de atividades por frequência
+
+```{r message=FALSE, echo=FALSE}
+categorias <-  c("p4a", "p4b", "p4c", "p4d", "p4e", "p4f", "p4g", "p4h", "p4i", "p4j", "p4k", "p4l", "p4m", "p4n")
+ 
+freq_foi <- function(categoria){
+  replace(categoria, categoria == 1 | categoria == 2, "foi")
+}
+
+freq_nao_foi <- function(categoria){
+  replace(categoria, categoria == 3 | categoria == 4, "nao_foi")
+}
+
+frequencia_atividade <- bd_info %>% 
+  inner_join(city_info, by = c("cidade" = "rotulo")) %>%
+  select(cidade.y, one_of(categorias)) %>% 
+  rename(cidade = cidade.y) %>%
+  mutate(across(all_of(categorias), freq_foi)) %>%
+  mutate(across(all_of(categorias), freq_nao_foi))
+
+kable(head(frequencia_atividade, n=5), "html") %>% 
+  kable_styling(bootstrap_options = c("striped","condensed", "bordered"), full_width = F) %>% 
+  row_spec(1:5, color = "black")
+```  
+  
+## Rankeando os passeios mais visitados
+
+```{r message=FALSE, echo=FALSE}
+total <- list()
+for (coluna in 2:ncol(frequencia_atividade)){
+  rank_freq <- nrow(frequencia_atividade[frequencia_atividade[[coluna]] == "foi",])
+  total <- c(total, rank_freq)
+}
+rank <- cbind(total, categorias)
+rank <- as_tibble(rank) %>% 
+  arrange(desc(as.numeric(total))) %>% 
+  head(5)
+
+rank$categorias <- c("livros", "cinema", "games", "shows", "festas típicas")
+
+kable(rank, "html") %>% 
+  kable_styling(bootstrap_options = c("striped","condensed", "bordered"), full_width = F) %>% 
+  row_spec(1:5, color = "black")
+```
+## Correlação entre atividades mais acessadas
+
+```{r message=FALSE, echo=FALSE}
+cor_foi <- function(categoria){
+  replace(categoria, categoria == "foi" , 1)
+}
+
+cor_nao_foi <- function(categoria){
+  replace(categoria, categoria == "nao_foi" , 0)
+}
+
+frequencia <- frequencia_atividade %>% 
+select(cinema = p4b, festas_tipicas = p4g, shows = p4i, livros = p4n, games = p4m) %>%
+  mutate(across(all_of(c("cinema", "festas_tipicas", "shows", "livros", "games")), cor_foi)) %>%
+  mutate(across(all_of(c("cinema", "festas_tipicas", "shows", "livros", "games")), cor_nao_foi))
+
+frequencia [] <- lapply(frequencia , function(x) as.numeric(as.character(x)))
+
+
+# reshape and plot
+melted_frequencia <- melt(cor(frequencia, method = "pearson"))
+ggplot(data = melted_frequencia, aes(x=Var1, y=Var2, fill=value)) + 
+  geom_tile() +
+  geom_text(aes(Var2, Var1, label = round(value, digits = 2)), color = "black", size = 4) +
+  theme(
+    axis.title.x = element_blank(),
+    axis.title.y = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.border = element_blank(),
+    panel.background = element_blank(),
+    axis.ticks = element_blank()) +
+  scale_fill_gradient(name = "correlação",
+                      low = "#FFFFFF",
+                      high = "#012345")
+  
+```
+
+
+
+
+
