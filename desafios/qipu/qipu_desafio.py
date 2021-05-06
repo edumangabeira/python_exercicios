@@ -299,7 +299,7 @@ def main():
 	lê valores em reais(R$) de um arquivo .txt e os escreve novamente e também por extenso em outro .txt.
 	'''
 	entrada, saida = 'entrada.txt', 'saida.txt'
-	print('Convertendo valores de {entrada} em {saida}... \n')
+	print(f'Convertendo valores de {entrada} em {saida}... \n')
 	write_saida(saida, read_entrada(entrada))
 	print('Operação bem sucedida.')
 
