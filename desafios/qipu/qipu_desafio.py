@@ -230,8 +230,9 @@ def saida(arquivo, valores):
 	'''
 	with open(arquivo, 'w') as saida:
 		for valor in valores:
+			valor = valor.replace('\n','')
 			valor_extenso = converte_valor(split_valor(valor)[0], split_valor(valor)[1])
-			saida.write(f'{valor_extenso} - {valor}\n')
+			saida.write(f'{valor} - {valor_extenso} \n')
 
 def main():
 	'''
