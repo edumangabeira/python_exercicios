@@ -155,9 +155,9 @@ def get_reais(reais):
 	# milhoes
 	if milhoes is not None and milhares is None and centenas_ is None:
 		if flag[0] == 1:
-			reais = f'{milhoes} milhão'
+			reais = f'{milhoes} milhão de'
 		else:
-			reais = f'{milhoes} milhões'
+			reais = f'{milhoes} milhões de'
 
 	elif milhoes is not None and milhares is None and centenas_ is not None:
 		if flag[0] == 1 and (flag[2] == 1 or cent_flag[2] > 1):
