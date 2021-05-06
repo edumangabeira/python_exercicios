@@ -86,42 +86,51 @@ def get_reais(reais):
 	# milhares --->  reais[3, 4, 5]
 	# centenas --->  reais[6, 7, 8]
 	reais_trios = [None, None, None]
-
-	# percorre índices pelo inicio de cada trio.
 	trio = 0
-	# flag para indicar se um trio começa com 1
+	# flag para indicar se um trio começa com 1.
 	flag = [0, 0, 0]
+	# flag para indicar se uma centena é maior que 1.
+	cent_flag = [0, 0, 0]
+	# percorre índices pelo inicio de cada trio.
 	for i in (0, 3, 6):
 		# cento e ...
 		cent, dezen, unid = reais[i], reais[i+1], reais[i+2]
 		if int(cent) == 1 and int(dezen) > 0 and int(unid) == 0:
 			reais_trios[trio] = 'cento e ' + dezenas.get(dezen+'0')
+			flag[trio] = 1
 
 		elif int(cent) == 1 and int(dezen) == 0 and int(unid) > 0:
 			reais_trios[trio] = 'cento e ' + unidades.get(unid)
+			flag[trio] = 1
 
 		elif int(cent) == 1 and int(dezen) > 1 and int(unid) > 0:
 			reais_trios[trio] = 'cento e ' + dezenas.get(dezen+'0') + ' e ' + unidades.get(unid)
+			flag[trio] = 1
 
 		elif int(cent) == 1 and int(dezen) == 1 and int(unid) > 0:
 			reais_trios[trio] = 'cento e ' + dez_.get(dezen + unid)
+			flag[trio] = 1
 
 		# centenas
 		elif int(cent) > 0 and int(dezen) == 0 and int(unid) == 0:
 			reais_trios[trio] = centenas.get(cent + '00')
+			cent_flag[trio] = int(cent)
 
 		elif int(cent) > 1 and int(dezen) > 0 and int(unid) == 0:
 			reais_trios[trio] = centenas.get(cent+'00') + ' e ' + dezenas.get(dezen+'0')
+			cent_flag[trio] = int(cent)
 
 		elif int(cent) > 1 and int(dezen) == 0 and int(unid) > 0:
 			reais_trios[trio] = centenas.get(cent+'00') + ' e ' + unidades.get(unid)
-
+			cent_flag[trio] = int(cent)
 
 		elif int(cent) > 1 and int(dezen) > 1 and int(unid) > 0:
 			reais_trios[trio] = centenas.get(cent+'00') + ' e ' + dezenas.get(dezen+'0') + ' e ' + unidades.get(unid)
+			cent_flag[trio] = int(cent)
 
 		elif int(cent) > 1 and int(dezen) == 1 and int(unid) > 0:
 			reais_trios[trio] = centenas.get(cent+'00') + ' e ' + dez_.get(dezen + unid)
+			cent_flag[trio] = int(cent)
 
 		# dezenas
 		elif int(cent) == 0 and int(dezen) > 1 and int(unid) > 0:
@@ -136,7 +145,7 @@ def get_reais(reais):
 		# unidades
 		elif int(cent) == 0 and int(dezen) == 0 and int(unid) > 0:
 			reais_trios[trio] = unidades.get(unid)
-			if reais_trios[trio] == 1:
+			if reais_trios[trio] == 'um':
 				flag[trio] = 1
 
 		trio = trio + 1
@@ -151,10 +160,14 @@ def get_reais(reais):
 			reais = f'{milhoes} milhões'
 
 	elif milhoes is not None and milhares is None and centenas_ is not None:
-		if flag[0] == 1:
+		if flag[0] == 1 and (flag[2] == 1 or cent_flag[2] > 1):
 			reais =  f'{milhoes} milhão, {centenas_}'
-		else:
+		elif flag[0] == 1 and (flag[2] == 0):
+			reais =  f'{milhoes} milhão e {centenas_}'
+		elif flag[0] != 1 and (flag[2] == 1 or cent_flag[2] > 1):
 			reais = f'{milhoes} milhões, {centenas_}'
+		else:
+			reais = f'{milhoes} milhões e {centenas_}'
 
 	elif milhoes is not None and milhares is not None and centenas_ is None:
 		if flag[0] == 1:
@@ -170,8 +183,12 @@ def get_reais(reais):
 
 	# milhares
 	elif milhoes is None and milhares is not None and centenas_ is not None:
-		if flag[1] == 1:
+		if flag[1] == 1 and (flag[2] == 1 or cent_flag[2] > 1):
 			reais =  f'mil, {centenas_}'
+		elif flag[1] == 1 and (flag[2] == 0 and cent_flag[2] < 1):
+			reais =  f'mil e {centenas_}'
+		elif flag[1] != 1 and (flag[2] == 1 or cent_flag[2] > 1):
+			reais = f'{milhares} mil {centenas_}'
 		else:
 			reais = f'{milhares} mil e {centenas_}'
 
@@ -270,7 +287,7 @@ def write_saida(arquivo, valores):
 			try:
 				valor_extenso = formata_texto(reais, centavos)
 			except:
-				print('Erro(formata_texto(reais, centavos)): Não foi possível formatar o valor.')
+				print(f'Erro(formata_texto(reais, centavos)): Não foi possível formatar {valor}.')
 
 			try:
 				saida.write(f'{valor} - {valor_extenso} \n')
