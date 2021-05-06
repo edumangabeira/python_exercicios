@@ -3,9 +3,9 @@ __maintainer__ = 'Eduardo Freire Mangabeira'
 __email__      = 'edu.mangaba@gmail.com'
 
 
-def entrada(arquivo):
+def read_entrada(arquivo):
 	'''
-	entrada(arquivo)
+	read_entrada(arquivo)
 
 	Recebe o arquivo .txt com valores e os retorna numa lista.
 	'''
@@ -222,9 +222,9 @@ def converte_valor(reais, centavos):
 	return valor_convertido
 
 
-def saida(arquivo, valores):
+def write_saida(arquivo, valores):
 	'''
-	saida(arquivo, valores)
+	write_saida(arquivo, valores)
 
 	Recebe uma lista com valores e os salva por extenso num arquivo .txt.
 	'''
@@ -238,10 +238,10 @@ def main():
 	'''
 	lê valores em reais(R$) de um arquivo .txt e os escreve novamente e também por extenso em outro .txt.
 	'''
-	arq_entrada, arq_saida = 'entrada.txt', 'saida.txt'
+	entrada, saida = 'entrada.txt', 'saida.txt'
 	try:
 		print('Convertendo valores de {arq_entrada} em {arq_saida}... \n')
-		saida(arq_saida, entrada(arq_entrada))
+		write_saida(saida, read_entrada(entrada))
 		print('Operação bem sucedida.')
 	except:
 		print('Aviso: houve um erro ao escrever os valores no novo arquivo.')
