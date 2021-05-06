@@ -1,15 +1,8 @@
-quinhentos mil e três reais. - 500003,00
-
-dois mil e trezentos e quarenta e oito reais e noventa e nove centavos. - 2348,99
-
-um mil e trinta e um reais e quarenta centavos. - 1031,40
-
-seis mil e setecentos e cinco reais e cinquenta e três centavos. - 6705,53
-
-zero real - 0,00
-
-quarenta e cinco centavos. - 0,45
-
-dois reais. - 2,00
-
-um real - 1,00
+500003,00 - quinhentos mil e três reais. 
+2348,99 - dois mil e trezentos e quarenta e oito reais e noventa e nove centavos. 
+1031,40 - um mil e trinta e um reais e quarenta centavos. 
+6705,53 - seis mil e setecentos e cinco reais e cinquenta e três centavos. 
+0,00 - zero real. 
+0,45 - quarenta e cinco centavos. 
+2,00 - dois reais. 
+1,00 - um real. 

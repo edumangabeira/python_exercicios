@@ -3,14 +3,24 @@ __maintainer__ = 'Eduardo Freire Mangabeira'
 __email__      = 'edu.mangaba@gmail.com'
 
 
+import os
+
+
 def read_entrada(arquivo):
 	'''
 	read_entrada(arquivo)
 
 	Recebe o arquivo .txt com valores e os retorna numa lista.
 	'''
-	with open(arquivo, 'r') as entrada:
-		valores = entrada.readlines()
+	try:
+		with open(arquivo, 'r') as entrada:
+			valores = entrada.readlines()
+	except FileNotFoundError as e:
+		path = os.path.dirname(os.path.realpath(__file__))
+		cwd = os.getcwd()
+		print('Arquivo {arquivo} não encontrado em {path}.')
+		print('Pasta de trabalho atual: {cwd}')
+		print(e)
 	return valores
 
 def split_valor(valor):
@@ -30,11 +40,13 @@ def split_valor(valor):
 		int(reais)
 		int(centavos)
 	except ValueError as e:
-		print("Valor inválido, o formato aceito é XXXX, XX")
+		print("Valor inválido, o formato aceito é XXXX, XX.")
 		print(e)
 
 	if len(reais) > 9:
-		raise Exception('Erro: reais devem ter no máximo nove dígitos.')
+		print('Erro: reais devem ter no máximo nove dígitos.\n')
+		print('Confira o arquivo de entrada.')
+		return
 
 	while len(centavos) < 2:
 		centavos = centavos + '0'
@@ -47,15 +59,11 @@ def split_valor(valor):
 
 	return reais_list, centavos_list
 
-def converte_valor(reais, centavos):
+def get_reais(reais):
 	'''
-	converte_valor(reais, centavos)
+	converte_valor(reais)
 
-	Lê valores em reais e centavos e os escreve por extenso.
-	
-	Ex: 
-	1,00    => um real.
-	1000,54 => mil reais e cinquenta e quatro centavos.
+	Lê valor em reais e o escreve por extenso.
 	'''
 	unidades = {'1':'um', '2':'dois', '3':'três', '4':'quatro', '5':'cinco', 
 	'6':'seis', '7':'sete','8':'oito', '9':'nove'}
@@ -73,24 +81,6 @@ def converte_valor(reais, centavos):
 	'600':'seiscentos','700':'setecentos', '800':'oitocentos', 
 	'900':'novecentos'}
 
-	# centavos
-	## dezenas
-	if int(centavos[0]) == 1 and int(centavos[1]) > 0:
-		centavos = _dez.get(''.join(centavos))
-
-	elif int(centavos[0]) > 0 and int(centavos[1]) == 0:
-		centavos = dezenas.get(centavos[0]+'0')
-
-	elif int(centavos[0]) > 0 and int(centavos[1]) > 0:
-		centavos = dezenas.get(centavos[0]+'0') + ' e ' + unidades.get(centavos[1])
-	## unidades
-	elif int(centavos[0]) == 0 and int(centavos[1]) > 0:
-		centavos = unidades.get(centavos[1])
-
-	elif int(centavos[0]) == 0 and int(centavos[1]) == 0:
-		centavos = 'zero'
-	# ---------------------------------------------------
-	# reais
 	# dividir em trios xxx.xxx.xxx
 	# milhões  --->  reais[0, 1, 2]
 	# milhares --->  reais[3, 4, 5]
@@ -196,16 +186,57 @@ def converte_valor(reais, centavos):
 		reais = centenas_
 	else:
 		reais = 'zero'
+	return reais
 
-	# formatação do texto
+def get_centavos(centavos):
+	'''
+	converte_valor(centavos)
+
+	Lê valor em centavos e o escreve por extenso.
+	'''
+
+	unidades = {'1':'um', '2':'dois', '3':'três', '4':'quatro', '5':'cinco', 
+	'6':'seis', '7':'sete','8':'oito', '9':'nove'}
+
+	dez_     = {'11':'onze', '12':'doze', '13':'treze', '14':'catorze',
+	'15':'quinze', '16':'dezesseis', '17':'dezessete', '18':'dezoito', 
+	'19':'dezenove'}
+
+	dezenas  = {'10':'dez', '20':'vinte', '30':'trinta', '40':'quarenta', 
+	'50':'cinquenta', '60':'sessenta','70':'setenta', '80':'oitenta', 
+	'90':'noventa'}
+
+	## dezenas
+	if int(centavos[0]) == 1 and int(centavos[1]) > 0:
+		centavos = _dez.get(''.join(centavos))
+
+	elif int(centavos[0]) > 0 and int(centavos[1]) == 0:
+		centavos = dezenas.get(centavos[0]+'0')
+
+	elif int(centavos[0]) > 0 and int(centavos[1]) > 0:
+		centavos = dezenas.get(centavos[0]+'0') + ' e ' + unidades.get(centavos[1])
+	## unidades
+	elif int(centavos[0]) == 0 and int(centavos[1]) > 0:
+		centavos = unidades.get(centavos[1])
+
+	elif int(centavos[0]) == 0 and int(centavos[1]) == 0:
+		centavos = 'zero'
+	return centavos
+
+def formata_texto(reais, centavos):
+	'''
+	formata_texto(reais, centavos)
+
+	formata texto de valor recebido por extenso.
+	'''
 	if reais in ['um'] and centavos in ['um']:
 		valor_convertido = f'{reais} real e {centavos} centavo.'
 
 	if reais in ['um'] and centavos in ['zero']:
-		valor_convertido = f'{reais} real'
+		valor_convertido = f'{reais} real.'
 
 	elif reais in ['zero'] and centavos in ['zero']:
-		valor_convertido = f'zero real'
+		valor_convertido = f'zero real.'
 
 	elif reais in ['um'] and centavos not in ['zero', 'um']:
 		valor_convertido = f'{reais} real e {centavos} centavos.'
@@ -231,20 +262,29 @@ def write_saida(arquivo, valores):
 	with open(arquivo, 'w') as saida:
 		for valor in valores:
 			valor = valor.replace('\n','')
-			valor_extenso = converte_valor(split_valor(valor)[0], split_valor(valor)[1])
-			saida.write(f'{valor} - {valor_extenso} \n')
+			try:
+				reais, centavos = get_reais(split_valor(valor)[0]), get_centavos(split_valor(valor)[1])
+			except:
+				print('Erro: Não foi possível escrever o valor por extenso.')
+
+			try:
+				valor_extenso = formata_texto(reais, centavos)
+			except:
+				print('Erro(formata_texto(reais, centavos)): Não foi possível formatar o valor.')
+
+			try:
+				saida.write(f'{valor} - {valor_extenso} \n')
+			except:
+				print('Erro: Não foi possível escrever no arquivo de saída')
 
 def main():
 	'''
 	lê valores em reais(R$) de um arquivo .txt e os escreve novamente e também por extenso em outro .txt.
 	'''
 	entrada, saida = 'entrada.txt', 'saida.txt'
-	try:
-		print('Convertendo valores de {arq_entrada} em {arq_saida}... \n')
-		write_saida(saida, read_entrada(entrada))
-		print('Operação bem sucedida.')
-	except:
-		print('Aviso: houve um erro ao escrever os valores no novo arquivo.')
+	print('Convertendo valores de {entrada} em {saida}... \n')
+	write_saida(saida, read_entrada(entrada))
+	print('Operação bem sucedida.')
 
 if __name__ == '__main__':
 	main()
